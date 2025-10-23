@@ -62,8 +62,24 @@ app.use((req, res, next) => {
 });
 
 // Health check endpoint
-app.get("/health", (req, res) => {
-  res.status(200).json({ status: "OK", message: "Server is running" });
+app.get("/health", async (req, res) => {
+  try {
+    // Test database connection
+    await db.query('SELECT 1');
+    res.status(200).json({ 
+      status: "OK", 
+      message: "Server is running",
+      database: "connected",
+      timestamp: new Date().toISOString()
+    });
+  } catch (error) {
+    res.status(503).json({ 
+      status: "ERROR", 
+      message: "Database connection failed",
+      database: "disconnected",
+      timestamp: new Date().toISOString()
+    });
+  }
 });
 
 // Routes
@@ -72,7 +88,7 @@ app.use("/api/users", userRouter); // Route for user-related operations
 app.use("/api/auth", authRouter); // Route for authentication-related operations
 
 // Serve React app for all non-API routes
-app.get("*", (req, res) => {
+app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'));
 });
 
@@ -155,4 +171,9 @@ app.listen(PORT, '0.0.0.0', async () => {
   
   // Initialize database
   await initializeDatabase();
+  
+  // Add a small delay to ensure everything is ready
+  setTimeout(() => {
+    console.log('🚀 Server fully initialized and ready for requests');
+  }, 2000);
 });
