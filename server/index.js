@@ -59,6 +59,11 @@ app.use((req, res, next) => {
   next();
 });
 
+// Health check endpoint
+app.get("/health", (req, res) => {
+  res.status(200).json({ status: "OK", message: "Server is running" });
+});
+
 // Routes
 app.use("/api/blogs", blogsRouter); // Route for blog-related operations
 app.use("/api/users", userRouter); // Route for user-related operations
@@ -83,6 +88,8 @@ if (process.env.NODE_ENV === "production") {
 }
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on http://localhost:${PORT}`); // Log the server URL
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`✅ Server is running on port ${PORT}`);
+  console.log(`🌐 Health check available at: http://localhost:${PORT}/health`);
+  console.log(`📱 App available at: http://localhost:${PORT}`);
 });
