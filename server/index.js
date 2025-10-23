@@ -21,7 +21,7 @@ app.use(express.static('../dist'));
 
 // Security middleware
 app.use(cors({
-  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  origin: process.env.CLIENT_URL || 'http://localhost:3001',
   credentials: true
 })); // Enable Cross-Origin Resource Sharing with specific origin
 
