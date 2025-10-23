@@ -150,36 +150,36 @@ const Home = () => {
 
       <div className="text-center w-full max-w-6xl mx-auto px-4 sm:px-8 z-10">
         {/* Developer avatar with glow effect */}
-        <div className="relative mb-8">
+        <div className="relative mb-6 sm:mb-8">
           <div className="absolute inset-0 bg-cyan-500/30 rounded-full blur-2xl scale-125 animate-pulse"></div>
           <div className="absolute inset-0 bg-blue-500/20 rounded-full blur-xl scale-115 animate-pulse" style={{ animationDelay: '0.5s' }}></div>
           <div className="absolute inset-0 bg-purple-500/15 rounded-full blur-lg scale-110 animate-pulse" style={{ animationDelay: '1s' }}></div>
           <img
             src="/assets/avatar.png"
             alt="Jose Ferreira - Developer"
-            className="relative w-64 h-56 mx-auto rounded-full border-4 border-cyan-500 shadow-2xl hover:scale-105 transition-transform duration-300"
+            className="relative w-48 h-42 sm:w-64 sm:h-56 mx-auto rounded-full border-4 border-cyan-500 shadow-2xl hover:scale-105 transition-transform duration-300"
           />
           {/* Floating tech icons around avatar */}
-          <div className="absolute -top-4 -right-4 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-3 rounded-full animate-bounce shadow-lg group cursor-pointer">
-            <FaReact className="text-xl group-hover:rotate-180 transition-transform duration-500" />
+          <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-2 sm:p-3 rounded-full animate-bounce shadow-lg group cursor-pointer">
+            <FaReact className="text-lg sm:text-xl group-hover:rotate-180 transition-transform duration-500" />
           </div>
-          <div className="absolute -bottom-4 -left-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white p-3 rounded-full animate-bounce shadow-lg group cursor-pointer" style={{ animationDelay: '1s' }}>
-            <FaNodeJs className="text-xl group-hover:scale-110 transition-transform duration-300" />
+          <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white p-2 sm:p-3 rounded-full animate-bounce shadow-lg group cursor-pointer" style={{ animationDelay: '1s' }}>
+            <FaNodeJs className="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300" />
           </div>
-          <div className="absolute -top-2 -left-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white p-2 rounded-full animate-pulse group cursor-pointer" style={{ animationDelay: '2s' }}>
-            <FaCode className="text-lg group-hover:rotate-90 transition-transform duration-300" />
+          <div className="absolute -top-1 -left-4 sm:-top-2 sm:-left-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white p-1.5 sm:p-2 rounded-full animate-pulse group cursor-pointer" style={{ animationDelay: '2s' }}>
+            <FaCode className="text-sm sm:text-lg group-hover:rotate-90 transition-transform duration-300" />
           </div>
-          <div className="absolute -bottom-2 -right-8 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-2 rounded-full animate-pulse group cursor-pointer" style={{ animationDelay: '0.5s' }}>
-            <FaDatabase className="text-lg group-hover:scale-110 transition-transform duration-300" />
+          <div className="absolute -bottom-1 -right-4 sm:-bottom-2 sm:-right-8 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-1.5 sm:p-2 rounded-full animate-pulse group cursor-pointer" style={{ animationDelay: '0.5s' }}>
+            <FaDatabase className="text-sm sm:text-lg group-hover:scale-110 transition-transform duration-300" />
           </div>
         </div>
 
         {/* Dynamic developer introduction */}
-        <div className="mb-6">
-          <h1 className="text-5xl sm:text-6xl font-extrabold mb-4 drop-shadow-lg">
+        <div className="mb-4 sm:mb-6">
+          <h1 className="text-3xl sm:text-5xl md:text-6xl font-extrabold mb-3 sm:mb-4 drop-shadow-lg">
             I'm <span className="text-cyan-400">Jose</span>
           </h1>
-          <div className="text-2xl sm:text-3xl font-bold text-cyan-400 mb-4 h-12 flex items-center justify-center">
+          <div className="text-lg sm:text-2xl md:text-3xl font-bold text-cyan-400 mb-3 sm:mb-4 h-8 sm:h-12 flex items-center justify-center">
             <span className="animate-fadeIn">
               {technologies[currentTech]}
             </span>
@@ -192,7 +192,7 @@ const Home = () => {
         </div>
 
         {/* Description */}
-        <p className="text-lg sm:text-xl mb-6 opacity-90 drop-shadow-md max-w-2xl mx-auto">
+        <p className="text-base sm:text-lg md:text-xl mb-4 sm:mb-6 opacity-90 drop-shadow-md max-w-2xl mx-auto px-4">
           I craft <span className="text-cyan-400 font-semibold">scalable web applications</span> and 
           <span className="text-blue-400 font-semibold"> modern user experiences</span> using modern technologies.
         </p>
@@ -226,17 +226,17 @@ const Home = () => {
         </div>
 
         {/* Call-to-action buttons */}
-        <div className="flex flex-col sm:flex-row justify-center gap-4 mb-6">
+        <div className="flex flex-col sm:flex-row justify-center gap-3 sm:gap-4 mb-4 sm:mb-6 px-4">
           <Link
             to="/projects"
-            className="group bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-8 py-3 rounded-lg font-semibold shadow-lg hover:from-cyan-500 hover:to-blue-500 hover:scale-105 transition-all duration-300 flex items-center justify-center"
+            className="group bg-gradient-to-r from-cyan-600 to-blue-600 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold shadow-lg hover:from-cyan-500 hover:to-blue-500 hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base touch-manipulation"
           >
             <FaCode className="mr-2 group-hover:animate-spin" />
             View My Work
           </Link>
           <Link
             to="/contact"
-            className="group border-2 border-cyan-500 px-8 py-3 rounded-lg font-semibold text-cyan-400 hover:bg-cyan-500 hover:text-black hover:scale-105 transition-all duration-300 flex items-center justify-center"
+            className="group border-2 border-cyan-500 px-6 sm:px-8 py-3 rounded-lg font-semibold text-cyan-400 hover:bg-cyan-500 hover:text-black hover:scale-105 transition-all duration-300 flex items-center justify-center text-sm sm:text-base touch-manipulation"
           >
             <FaEnvelope className="mr-2 group-hover:animate-bounce" />
             Let's Connect
@@ -244,7 +244,7 @@ const Home = () => {
         </div>
 
         {/* Social media links */}
-        <div className="flex justify-center space-x-8 text-3xl text-cyan-500/80 mb-6">
+        <div className="flex justify-center space-x-6 sm:space-x-8 text-2xl sm:text-3xl text-cyan-500/80 mb-4 sm:mb-6">
           <a
             href="https://github.com/x1nnas"
             target="_blank"
@@ -275,7 +275,7 @@ const Home = () => {
         </div>
 
         {/* Developer stats */}
-        <div className="mt-6 grid grid-cols-1 sm:grid-cols-3 gap-4 max-w-2xl mx-auto">
+        <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto px-4">
           <div className="group text-center p-6 bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-lg border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300 hover:scale-105">
             <div className="text-3xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">3+</div>
             <div className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Years Experience</div>

@@ -41,25 +41,25 @@ const Contact = () => {
         <FaDatabase className="text-2xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-12 z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-8 sm:py-12 z-10">
         {/* Page title */}
-        <div className="text-center mb-12">
-          <h2 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
+        <div className="text-center mb-8 sm:mb-12">
+          <h2 className="text-3xl sm:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-lg">
             Get in <span className="text-cyan-400">Touch</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full mb-4"></div>
-          <p className="text-lg text-gray-300 max-w-2xl mx-auto">
+          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full mb-3 sm:mb-4"></div>
+          <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto px-4">
             Feel free to reach out for collaborations, inquiries, or just to say hello!
           </p>
         </div>
 
         {/* Contact Grid Layout */}
-        <div className="grid lg:grid-cols-3 gap-8">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8">
           {/* Contact Information - Left Column */}
-          <div className="lg:col-span-1 space-y-6">
-            <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 rounded-2xl p-6 border border-cyan-500/20">
-              <h3 className="text-xl font-bold text-cyan-400 mb-4">Get in Touch</h3>
-              <div className="space-y-4">
+          <div className="lg:col-span-1 space-y-4 sm:space-y-6">
+            <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 rounded-2xl p-4 sm:p-6 border border-cyan-500/20">
+              <h3 className="text-lg sm:text-xl font-bold text-cyan-400 mb-3 sm:mb-4">Get in Touch</h3>
+              <div className="space-y-3 sm:space-y-4">
                 <div className="flex items-center space-x-3 group">
                   <div className="p-2 bg-cyan-500/20 rounded-lg group-hover:bg-cyan-500/30 transition-colors">
                     <FaEnvelope className="text-cyan-400 text-lg" />
@@ -110,10 +110,10 @@ const Contact = () => {
 
           {/* Contact Form - Right Column */}
           <div className="lg:col-span-2">
-            <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-cyan-500/20 rounded-2xl shadow-2xl p-8">
-              <h3 className="text-2xl font-bold text-cyan-400 mb-6">Send a Message</h3>
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid md:grid-cols-2 gap-6">
+            <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-cyan-500/20 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8">
+              <h3 className="text-xl sm:text-2xl font-bold text-cyan-400 mb-4 sm:mb-6">Send a Message</h3>
+              <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-cyan-300 text-sm font-medium mb-2" htmlFor="name">
                       Name

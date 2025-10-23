@@ -36,7 +36,7 @@ const Projects = () => {
   };
 
   return (
-    <section className="relative h-screen flex flex-col justify-center pt-16 bg-black text-white overflow-hidden">
+    <section className="relative min-h-screen flex flex-col justify-center pt-16 sm:pt-20 bg-black text-white overflow-hidden">
       {/* Background gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-transparent via-cyan-500/10 to-purple-500/10 pointer-events-none"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 via-transparent to-cyan-500/5 pointer-events-none"></div>
@@ -45,33 +45,33 @@ const Projects = () => {
       <div className="absolute inset-0 opacity-15 bg-[url('/assets/grid.svg')] bg-cover pointer-events-none animate-pulse"></div>
 
       {/* Floating tech elements */}
-      <div className="absolute top-20 left-10 text-cyan-400/30 animate-bounce">
-        <FaCode className="text-2xl" />
+      <div className="absolute top-20 left-4 sm:left-10 text-cyan-400/30 animate-bounce">
+        <FaCode className="text-xl sm:text-2xl" />
       </div>
-      <div className="absolute top-40 right-20 text-blue-400/30 animate-bounce" style={{ animationDelay: '1s' }}>
-        <FaTerminal className="text-2xl" />
+      <div className="absolute top-40 right-10 sm:right-20 text-blue-400/30 animate-bounce" style={{ animationDelay: '1s' }}>
+        <FaTerminal className="text-xl sm:text-2xl" />
       </div>
-      <div className="absolute bottom-40 left-20 text-purple-400/30 animate-bounce" style={{ animationDelay: '2s' }}>
-        <FaDatabase className="text-2xl" />
+      <div className="absolute bottom-40 left-10 sm:left-20 text-purple-400/30 animate-bounce" style={{ animationDelay: '2s' }}>
+        <FaDatabase className="text-xl sm:text-2xl" />
       </div>
-      <div className="absolute bottom-20 right-10 text-cyan-400/30 animate-bounce" style={{ animationDelay: '0.5s' }}>
-        <FaNodeJs className="text-2xl" />
+      <div className="absolute bottom-20 right-4 sm:right-10 text-cyan-400/30 animate-bounce" style={{ animationDelay: '0.5s' }}>
+        <FaNodeJs className="text-xl sm:text-2xl" />
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-6 py-4 z-10">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 py-4 z-10">
         {/* Page title */}
-        <div className="text-center mb-8">
-          <h2 className="text-5xl font-extrabold mb-4 drop-shadow-lg">
+        <div className="text-center mb-6 sm:mb-8">
+          <h2 className="text-3xl sm:text-5xl font-extrabold mb-3 sm:mb-4 drop-shadow-lg">
             My <span className="text-cyan-400">Projects</span>
           </h2>
-          <div className="w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
-          <p className="text-lg text-gray-300 mt-4 max-w-2xl mx-auto">
+          <div className="w-16 sm:w-24 h-1 bg-gradient-to-r from-cyan-400 to-purple-400 mx-auto rounded-full"></div>
+          <p className="text-base sm:text-lg text-gray-300 mt-3 sm:mt-4 max-w-2xl mx-auto px-4">
             Showcasing my latest work and innovative solutions
           </p>
         </div>
 
         {/* Project cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project, i) => {
             const IconComponent = project.icon;
             const colorClasses = getColorClasses(project.color);
