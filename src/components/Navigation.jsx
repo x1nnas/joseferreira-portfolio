@@ -11,32 +11,67 @@ const Navigation = () => {
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev); // Toggle mobile menu visibility
 
-  // Check authentication status and role on component mount
+  // Check authentication status and role on component mount and when localStorage changes
   useEffect(() => {
-    const token = localStorage.getItem("token");
-    
-    if (token) {
-      try {
-        const decoded = decodeJWT(token);
-        if (decoded && decoded.exp > Date.now() / 1000) {
-          setIsLoggedIn(true);
-          setUserRole(decoded.role);
-        } else {
-          // Token expired
+    const checkAuth = () => {
+      const token = localStorage.getItem("token");
+      
+      if (token) {
+        try {
+          const decoded = decodeJWT(token);
+          if (decoded && decoded.exp > Date.now() / 1000) {
+            setIsLoggedIn(true);
+            setUserRole(decoded.role);
+          } else {
+            // Token expired
+            localStorage.removeItem("token");
+            setIsLoggedIn(false);
+            setUserRole(null);
+          }
+        } catch {
+          // Error decoding token
           localStorage.removeItem("token");
           setIsLoggedIn(false);
           setUserRole(null);
         }
-      } catch {
-        // Error decoding token
-        localStorage.removeItem("token");
+      } else {
         setIsLoggedIn(false);
         setUserRole(null);
       }
-    } else {
-      setIsLoggedIn(false);
-      setUserRole(null);
-    }
+    };
+
+    // Check auth on mount
+    checkAuth();
+
+    // Listen for storage changes (when user logs in/out in another tab)
+    const handleStorageChange = (e) => {
+      if (e.key === 'token') {
+        checkAuth();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+
+    // Also check auth when the component becomes visible (user navigates back)
+    const handleVisibilityChange = () => {
+      if (!document.hidden) {
+        checkAuth();
+      }
+    };
+
+    // Listen for custom auth events (when user logs in/out)
+    const handleAuthChange = () => {
+      checkAuth();
+    };
+
+    document.addEventListener('visibilitychange', handleVisibilityChange);
+    window.addEventListener('authChange', handleAuthChange);
+
+    return () => {
+      window.removeEventListener('storage', handleStorageChange);
+      document.removeEventListener('visibilitychange', handleVisibilityChange);
+      window.removeEventListener('authChange', handleAuthChange);
+    };
   }, []);
 
   // Function to handle logout
@@ -44,6 +79,10 @@ const Navigation = () => {
     localStorage.removeItem("token");
     setIsLoggedIn(false);
     setUserRole(null);
+    
+    // Trigger auth change event
+    window.dispatchEvent(new CustomEvent('authChange'));
+    
     window.location.href = "/"; // Redirect to home page
   };
 

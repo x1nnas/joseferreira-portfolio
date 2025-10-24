@@ -33,6 +33,9 @@ const Login = () => {
       setSuccess("Login successful!");
       setShowSuccess(true);
 
+      // Trigger auth change event to update navigation
+      window.dispatchEvent(new CustomEvent('authChange'));
+
       // Clear the form
       setUsername("");
       setPassword("");
