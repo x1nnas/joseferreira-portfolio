@@ -9,14 +9,12 @@ dotenv.config(); // Load environment variables
 console.log('🔍 Environment check:');
 console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET' : 'NOT SET');
 console.log('NODE_ENV:', process.env.NODE_ENV);
-console.log('DB_HOST:', process.env.DB_HOST);
-console.log('All DB env vars:', {
-  DB_USER: process.env.DB_USER,
-  DB_PASS: process.env.DB_PASS ? 'SET' : 'NOT SET',
-  DB_NAME: process.env.DB_NAME,
-  DB_HOST: process.env.DB_HOST,
-  DB_PORT: process.env.DB_PORT
-});
+console.log('All environment variables containing DB/PG:', Object.keys(process.env).filter(key => 
+  key.includes('DB') || key.includes('PG') || key.includes('DATABASE')
+).reduce((obj, key) => {
+  obj[key] = key.includes('PASS') || key.includes('PASSWORD') ? 'SET' : process.env[key];
+  return obj;
+}, {}));
 
 // Create a connection pool using environment variables for configuration
 // Support both individual DB variables (local) and DATABASE_URL (Railway/Production)
@@ -32,17 +30,40 @@ if (process.env.DATABASE_URL) {
     max: 10,
   };
 } else if (process.env.NODE_ENV === 'production') {
-  console.log('⚠️ Production mode but no DATABASE_URL found, using Railway fallback');
+  console.log('⚠️ Production mode but no DATABASE_URL found, trying Railway detection');
   
-  // Railway fallback - use Railway's default PostgreSQL connection
-  // Railway provides these environment variables automatically
-  const railwayHost = process.env.PGHOST || process.env.DB_HOST || 'localhost';
-  const railwayPort = process.env.PGPORT || process.env.DB_PORT || '5432';
-  const railwayUser = process.env.PGUSER || process.env.DB_USER || 'postgres';
-  const railwayPassword = process.env.PGPASSWORD || process.env.DB_PASS || '';
-  const railwayDatabase = process.env.PGDATABASE || process.env.DB_NAME || 'railway';
+  // Try multiple Railway database connection methods
+  let railwayHost, railwayPort, railwayUser, railwayPassword, railwayDatabase;
   
-  console.log('🚂 Railway DB config:', {
+  // Method 1: Railway's standard PG variables
+  if (process.env.PGHOST) {
+    console.log('🚂 Using Railway PG variables');
+    railwayHost = process.env.PGHOST;
+    railwayPort = process.env.PGPORT || '5432';
+    railwayUser = process.env.PGUSER || 'postgres';
+    railwayPassword = process.env.PGPASSWORD || '';
+    railwayDatabase = process.env.PGDATABASE || 'railway';
+  }
+  // Method 2: Railway's custom DB variables
+  else if (process.env.DB_HOST && process.env.DB_HOST !== 'localhost') {
+    console.log('🚂 Using Railway DB variables');
+    railwayHost = process.env.DB_HOST;
+    railwayPort = process.env.DB_PORT || '5432';
+    railwayUser = process.env.DB_USER || 'postgres';
+    railwayPassword = process.env.DB_PASS || '';
+    railwayDatabase = process.env.DB_NAME || 'railway';
+  }
+  // Method 3: Try to detect Railway environment
+  else {
+    console.log('🚂 No Railway DB variables found, using localhost fallback');
+    railwayHost = 'localhost';
+    railwayPort = '5432';
+    railwayUser = 'postgres';
+    railwayPassword = '';
+    railwayDatabase = 'railway';
+  }
+  
+  console.log('🚂 Final Railway DB config:', {
     host: railwayHost,
     port: railwayPort,
     user: railwayUser,
@@ -91,7 +112,25 @@ pool.on('connect', () => {
 
 pool.on('error', (err) => {
   console.error('❌ Database connection error:', err.message);
+  console.error('❌ Connection details:', {
+    host: poolConfig.host,
+    port: poolConfig.port,
+    user: poolConfig.user,
+    database: poolConfig.database,
+    ssl: poolConfig.ssl
+  });
 });
+
+// Test connection immediately
+pool.connect()
+  .then(client => {
+    console.log('✅ Database connection test successful');
+    client.release();
+  })
+  .catch(err => {
+    console.error('❌ Database connection test failed:', err.message);
+    console.error('❌ Full error:', err);
+  });
 
 // Export the connection pool for use in other modules
 export default pool;
