@@ -10,6 +10,13 @@ console.log('🔍 Environment check:');
 console.log('DATABASE_URL:', process.env.DATABASE_URL ? 'SET' : 'NOT SET');
 console.log('NODE_ENV:', process.env.NODE_ENV);
 console.log('DB_HOST:', process.env.DB_HOST);
+console.log('All DB env vars:', {
+  DB_USER: process.env.DB_USER,
+  DB_PASS: process.env.DB_PASS ? 'SET' : 'NOT SET',
+  DB_NAME: process.env.DB_NAME,
+  DB_HOST: process.env.DB_HOST,
+  DB_PORT: process.env.DB_PORT
+});
 
 // Create a connection pool using environment variables for configuration
 // Support both individual DB variables (local) and DATABASE_URL (Railway/Production)
@@ -25,13 +32,30 @@ if (process.env.DATABASE_URL) {
     max: 10,
   };
 } else if (process.env.NODE_ENV === 'production') {
-  console.log('⚠️ Production mode but no DATABASE_URL found, using fallback');
-  // Railway fallback - try to construct DATABASE_URL from individual variables
-  const dbUrl = `postgresql://${process.env.DB_USER || 'postgres'}:${process.env.DB_PASS || ''}@${process.env.DB_HOST || 'localhost'}:${process.env.DB_PORT || 5432}/${process.env.DB_NAME || 'railway'}`;
-  console.log('🔗 Constructed DATABASE_URL:', dbUrl.replace(/:[^:@]*@/, ':***@'));
+  console.log('⚠️ Production mode but no DATABASE_URL found, using Railway fallback');
+  
+  // Railway fallback - use Railway's default PostgreSQL connection
+  // Railway provides these environment variables automatically
+  const railwayHost = process.env.PGHOST || process.env.DB_HOST || 'localhost';
+  const railwayPort = process.env.PGPORT || process.env.DB_PORT || '5432';
+  const railwayUser = process.env.PGUSER || process.env.DB_USER || 'postgres';
+  const railwayPassword = process.env.PGPASSWORD || process.env.DB_PASS || '';
+  const railwayDatabase = process.env.PGDATABASE || process.env.DB_NAME || 'railway';
+  
+  console.log('🚂 Railway DB config:', {
+    host: railwayHost,
+    port: railwayPort,
+    user: railwayUser,
+    password: railwayPassword ? 'SET' : 'NOT SET',
+    database: railwayDatabase
+  });
   
   poolConfig = {
-    connectionString: dbUrl,
+    host: railwayHost,
+    port: parseInt(railwayPort),
+    user: railwayUser,
+    password: railwayPassword,
+    database: railwayDatabase,
     ssl: { rejectUnauthorized: false },
     connectionTimeoutMillis: 10000,
     idleTimeoutMillis: 30000,
