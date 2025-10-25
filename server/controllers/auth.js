@@ -34,11 +34,11 @@ export async function registerUser(req, res) {
 
   try {
     // Check if email already exists
-    const existingUser = await db.query(
-      "SELECT * FROM users WHERE email = $1",
+    const existingUser = await db.get(
+      "SELECT * FROM users WHERE email = ?",
       [email]
     );
-    if (existingUser.rows.length > 0) {
+    if (existingUser) {
       return res.status(400).json({ message: "Email already registered" });
     }
 
@@ -49,19 +49,25 @@ export async function registerUser(req, res) {
     const role = "user";
 
     // Create user in database
-    const newUser = await db.query(
-      "INSERT INTO users (username, email, password, role) VALUES ($1, $2, $3, $4) RETURNING id, username, email, role",
+    const result = await db.run(
+      "INSERT INTO users (username, email, password, role) VALUES (?, ?, ?, ?)",
       [sanitizedUsername, sanitizedEmail, hashedPassword, role]
+    );
+    
+    // Get the created user
+    const newUser = await db.get(
+      "SELECT id, username, email, role FROM users WHERE id = ?",
+      [result.lastID]
     );
 
     // Create JWT token
     const token = jwt.sign(
-      { id: newUser.rows[0].id, role: newUser.rows[0].role },
+      { id: newUser.id, role: newUser.role },
       JWT_SECRET,
       { expiresIn: "1h" }
     );
 
-    res.status(201).json({ user: newUser.rows[0], token });
+    res.status(201).json({ user: newUser, token });
   } catch (err) {
     console.error(err);
     res.status(500).json({ message: "Registration failed" });
@@ -82,10 +88,9 @@ export async function loginUser(req, res) {
 
   try {
     // Find user by username
-    const result = await db.query("SELECT * FROM users WHERE username = $1", [
+    const user = await db.get("SELECT * FROM users WHERE username = ?", [
       sanitizedUsername,
     ]);
-    const user = result.rows[0];
 
     if (!user) {
       return res.status(400).json({ message: "Invalid credentials" });
