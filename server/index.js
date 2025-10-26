@@ -64,7 +64,7 @@ app.use((req, res, next) => {
 // Health check endpoint
 app.get("/health", async (req, res) => {
   try {
-    // Test database connection
+    // Test database connection using the unified interface
     await db.query('SELECT 1');
     res.status(200).json({ 
       status: "OK", 
@@ -73,10 +73,12 @@ app.get("/health", async (req, res) => {
       timestamp: new Date().toISOString()
     });
   } catch (error) {
+    console.error('Health check failed:', error);
     res.status(503).json({ 
       status: "ERROR", 
       message: "Database connection failed",
       database: "disconnected",
+      error: error.message,
       timestamp: new Date().toISOString()
     });
   }

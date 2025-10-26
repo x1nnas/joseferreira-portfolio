@@ -6,8 +6,13 @@ import { fileURLToPath } from "url";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// Load environment variables from config.env
-dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
+// Load environment variables - try config.env first, then fallback to .env
+try {
+  dotenv.config({ path: path.join(__dirname, '..', 'config.env') });
+} catch (error) {
+  // Fallback to .env if config.env doesn't exist
+  dotenv.config({ path: path.join(__dirname, '..', '.env') });
+}
 
 // Determine which database to use
 // Force PostgreSQL for Railway/production deployments
