@@ -1,5 +1,5 @@
-// Base URL for your backend
-const BASE_URL = "http://localhost:3000/api/auth";
+// Base URL for your backend - use relative URL for proxy
+const BASE_URL = "/api/auth";
 // Registration 
 export async function registerUser({ username, email, password }) {
   try {
