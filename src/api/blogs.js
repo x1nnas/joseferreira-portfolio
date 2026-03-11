@@ -1,4 +1,10 @@
-const BASE_URL = "/api/blogs";
+// Base URL for the backend API.
+// In development, this will typically be empty so that Vite's proxy
+// can forward `/api/*` calls to the local backend.
+// In production (e.g. Vercel), set `VITE_API_BASE_URL` to your backend URL
+// like `https://your-api-domain.com`.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const BASE_URL = `${API_BASE}/api/blogs`;
 
 export const getAllBlogs = async () => {
   const response = await fetch(`${BASE_URL}`, {

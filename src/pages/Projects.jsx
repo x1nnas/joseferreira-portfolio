@@ -1,30 +1,23 @@
 import React from "react";
-import { FaCode, FaGithub, FaExternalLinkAlt, FaReact, FaNodeJs, FaDatabase, FaTerminal } from "react-icons/fa";
+import { Link } from "react-router-dom";
+import {
+  FaCode,
+  FaGithub,
+  FaExternalLinkAlt,
+  FaReact,
+  FaNodeJs,
+  FaDatabase,
+  FaTerminal,
+} from "react-icons/fa";
+import { projects } from "../data/projects";
+
+const iconMap = {
+  react: FaReact,
+  code: FaCode,
+  database: FaDatabase,
+};
 
 const Projects = () => {
-  const projects = [
-    {
-      title: "E-Commerce Platform",
-      description: "Full-stack e-commerce solution with React, Node.js, and PostgreSQL. Features include user authentication, payment processing, and admin dashboard.",
-      tech: ["React", "Node.js", "PostgreSQL"],
-      icon: FaReact,
-      color: "cyan"
-    },
-    {
-      title: "Task Management App",
-      description: "Collaborative task management application with real-time updates, drag-and-drop functionality, and team collaboration features.",
-      tech: ["React", "Socket.io", "MongoDB"],
-      icon: FaCode,
-      color: "blue"
-    },
-    {
-      title: "Data Analytics Dashboard",
-      description: "Interactive dashboard for data visualization with real-time charts, filtering capabilities, and export functionality.",
-      tech: ["React", "D3.js", "Python"],
-      icon: FaDatabase,
-      color: "purple"
-    }
-  ];
 
   const getColorClasses = (color) => {
     const colorMap = {
@@ -73,7 +66,7 @@ const Projects = () => {
         {/* Project cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
           {projects.map((project, i) => {
-            const IconComponent = project.icon;
+            const IconComponent = iconMap[project.icon] || FaCode;
             const colorClasses = getColorClasses(project.color);
             
             return (
@@ -88,12 +81,26 @@ const Projects = () => {
                     <IconComponent className="text-2xl group-hover:rotate-180 transition-transform duration-500" />
                   </div>
                   <div className="flex space-x-2">
-                    <a href="#" className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors">
-                      <FaGithub className="text-lg" />
-                    </a>
-                    <a href="#" className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors">
-                      <FaExternalLinkAlt className="text-lg" />
-                    </a>
+                    {project.githubUrl && (
+                      <a
+                        href={project.githubUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
+                      >
+                        <FaGithub className="text-lg" />
+                      </a>
+                    )}
+                    {project.liveUrl && (
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
+                      >
+                        <FaExternalLinkAlt className="text-lg" />
+                      </a>
+                    )}
                   </div>
                 </div>
 
@@ -104,7 +111,7 @@ const Projects = () => {
 
                 {/* Project description */}
                 <p className="text-gray-300 text-sm mb-6 leading-relaxed">
-                  {project.description}
+                  {project.shortDescription}
                 </p>
 
                 {/* Tech stack */}
@@ -123,13 +130,13 @@ const Projects = () => {
                 </div>
 
                 {/* View details link */}
-                <a
-                  href="#"
-                  className={`inline-flex items-center text-sm font-semibold hover:underline transition-colors ${colorClasses.split(' ')[4]}`}
+                <Link
+                  to={`/projects/${project.slug}`}
+                  className={`inline-flex items-center text-sm font-semibold hover:underline transition-colors ${colorClasses.split(" ")[4]}`}
                 >
                   View Details
                   <FaExternalLinkAlt className="ml-2 text-xs" />
-                </a>
+                </Link>
               </div>
             );
           })}

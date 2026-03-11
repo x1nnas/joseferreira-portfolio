@@ -20,10 +20,18 @@ const PORT = process.env.PORT || 3000; // Use environment variable for port or d
 app.use(express.static('../dist'));
 
 // Security middleware
-app.use(cors({
-  origin: ['http://localhost:3001', 'http://localhost:5173'],
-  credentials: true
-})); // Enable Cross-Origin Resource Sharing with specific origin
+const allowedOrigins = [
+  "http://localhost:3001",
+  "http://localhost:5173",
+  process.env.CLIENT_URL, // e.g. your Vercel frontend URL in production
+].filter(Boolean);
+
+app.use(
+  cors({
+    origin: allowedOrigins,
+    credentials: true,
+  })
+); // Enable Cross-Origin Resource Sharing with specific origins
 
 // Rate limiting (basic)
 let requestCounts = {};

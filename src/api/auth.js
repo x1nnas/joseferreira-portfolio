@@ -1,5 +1,8 @@
-// Base URL for your backend
-const BASE_URL = "http://localhost:3000/api/auth";
+// Base URL for your backend.
+// Uses `VITE_API_BASE_URL` in production (e.g. Vercel) and falls back
+// to a relative `/api` path in development so Vite's proxy can be used.
+const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
+const BASE_URL = `${API_BASE}/api/auth`;
 // Registration 
 export async function registerUser({ username, email, password }) {
   try {
