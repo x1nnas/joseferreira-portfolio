@@ -1,5 +1,8 @@
 import React, { useState } from "react";
-import { FaEnvelope, FaPhone, FaMapMarkerAlt, FaGithub, FaLinkedin, FaCode, FaTerminal, FaDatabase } from "react-icons/fa";
+import { FaEnvelope, FaGithub, FaLinkedin, FaCode, FaTerminal, FaDatabase } from "react-icons/fa";
+
+const FORMSPREE_ENDPOINT =
+  import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mlgpqrpb";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -7,6 +10,8 @@ const Contact = () => {
     email: "",
     message: ""
   });
+  const [submitStatus, setSubmitStatus] = useState({ type: "", text: "" });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleChange = (e) => {
     setFormData({
@@ -15,10 +20,52 @@ const Contact = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    // Form submitted successfully
+
+    if (!FORMSPREE_ENDPOINT) {
+      setSubmitStatus({
+        type: "error",
+        text: "Contact form is not configured yet. Please try the email link above.",
+      });
+      return;
+    }
+
+    setIsSubmitting(true);
+    setSubmitStatus({ type: "", text: "" });
+
+    try {
+      const response = await fetch(FORMSPREE_ENDPOINT, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          message: formData.message,
+          _subject: `Portfolio contact from ${formData.name}`,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to submit form");
+      }
+
+      setSubmitStatus({
+        type: "success",
+        text: "Message sent successfully. I will get back to you soon.",
+      });
+      setFormData({ name: "", email: "", message: "" });
+    } catch {
+      setSubmitStatus({
+        type: "error",
+        text: "Could not send your message right now. Please use the email link above.",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -113,6 +160,13 @@ const Contact = () => {
             <div className="bg-gradient-to-br from-neutral-900/50 to-neutral-800/30 border border-cyan-500/20 rounded-2xl shadow-2xl p-4 sm:p-6 md:p-8">
               <h3 className="text-xl sm:text-2xl font-bold text-cyan-400 mb-4 sm:mb-6">Send a Message</h3>
               <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-6">
+                <input
+                  type="text"
+                  name="_gotcha"
+                  className="hidden"
+                  tabIndex="-1"
+                  autoComplete="off"
+                />
                 <div className="grid md:grid-cols-2 gap-4 sm:gap-6">
                   <div>
                     <label className="block text-cyan-300 text-sm font-medium mb-2" htmlFor="name">
@@ -165,10 +219,20 @@ const Contact = () => {
                 
                 <button 
                   type="submit"
-                  className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
+                  disabled={isSubmitting}
+                  className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:from-cyan-700/70 disabled:to-blue-700/70 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
                 >
-                  Send Message
+                  {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
+                {submitStatus.text && (
+                  <p
+                    className={`text-sm text-center ${
+                      submitStatus.type === "success" ? "text-cyan-300" : "text-red-300"
+                    }`}
+                  >
+                    {submitStatus.text}
+                  </p>
+                )}
               </form>
             </div>
           </div>

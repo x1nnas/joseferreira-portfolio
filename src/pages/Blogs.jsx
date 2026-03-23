@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getAllBlogs } from "../api/blogs";
 import { FaCode, FaTerminal, FaDatabase, FaReact, FaCalendarAlt, FaArrowRight, FaBlog, FaGamepad, FaTrophy, FaPlay, FaPause, FaChevronDown } from "react-icons/fa";
 
@@ -24,7 +25,7 @@ const Blogs = () => {
         setLoading(true);
         const data = await getAllBlogs();
         setBlogs(data);
-      } catch (error) {
+      } catch {
         // Error fetching blogs
       } finally {
         setLoading(false);
@@ -245,13 +246,13 @@ const Blogs = () => {
                   
                   {/* Read more link */}
                   <div className="mt-auto">
-                    <a
-                      href={`/blogs/${blog.id}`}
+                    <Link
+                      to={`/blogs/${blog.id}`}
                       className="inline-flex items-center space-x-2 text-cyan-400 hover:text-cyan-300 font-semibold transition-colors group text-sm"
                     >
                       <span>Read More</span>
                       <FaArrowRight className="group-hover:translate-x-1 transition-transform duration-300" />
-                    </a>
+                    </Link>
                   </div>
                 </div>
               ))
