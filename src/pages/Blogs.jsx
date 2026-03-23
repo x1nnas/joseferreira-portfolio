@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { getAllBlogs } from "../api/blogs";
-import { FaCode, FaTerminal, FaDatabase, FaReact, FaCalendarAlt, FaArrowRight, FaBlog, FaGamepad, FaTrophy, FaPlay, FaPause } from "react-icons/fa";
+import { FaCode, FaTerminal, FaDatabase, FaReact, FaCalendarAlt, FaArrowRight, FaBlog, FaGamepad, FaTrophy, FaPlay, FaPause, FaChevronDown } from "react-icons/fa";
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([]);
@@ -109,6 +109,10 @@ const Blogs = () => {
           <p className="text-base sm:text-lg text-gray-300 max-w-2xl mx-auto px-4">
             Thoughts, tutorials, and insights from my development journey
           </p>
+          <div className="mt-4 inline-flex items-center gap-2 text-cyan-300/90 text-xs sm:text-sm">
+            <span>Scroll to explore posts</span>
+            <FaChevronDown className="animate-bounce" />
+          </div>
         </div>
 
         {/* Loading state */}

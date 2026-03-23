@@ -127,7 +127,7 @@ const ProjectDetail = () => {
               {showScreenshots ? (
                 !isFlowProject && screenshots.length > 2 ? (
                   <div className="space-y-4">
-                    <div className="relative overflow-hidden rounded-xl border border-neutral-700/70 bg-neutral-900 mx-auto w-full max-w-[280px] sm:max-w-[320px]">
+                    <div className="relative overflow-hidden rounded-xl border border-neutral-700/70 bg-neutral-900 mx-auto w-full max-w-[220px] sm:max-w-[280px] md:max-w-[320px]">
                       <img
                         src={screenshots[currentShot]}
                         alt={`${project.title} screenshot ${currentShot + 1}`}
@@ -164,8 +164,8 @@ const ProjectDetail = () => {
                       </div>
                     </div>
 
-                    <div className="overflow-x-auto pb-1">
-                      <div className="flex gap-3 min-w-max">
+                    <div className="overflow-x-auto pb-1 max-w-full">
+                      <div className="flex gap-2 min-w-max pr-1">
                         {screenshots.map((src, index) => (
                           <button
                             key={src + index}
@@ -181,7 +181,7 @@ const ProjectDetail = () => {
                             <img
                               src={src}
                               alt={`${project.title} thumbnail ${index + 1}`}
-                              className="w-16 h-28 object-cover"
+                              className="w-14 h-24 sm:w-16 sm:h-28 object-cover"
                             />
                           </button>
                         ))}

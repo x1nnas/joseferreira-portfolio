@@ -144,7 +144,7 @@ const About = () => {
             </div>
 
             {/* Right Column - Compact Skills & Goals */}
-            <div className="space-y-4 lg:mt-3">
+            <div className="space-y-4 md:mt-3 lg:mt-3">
               <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center">
                 <FaRocket className="mr-2" />
                 Current Focus

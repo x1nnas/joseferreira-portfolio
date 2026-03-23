@@ -11,7 +11,7 @@ const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo linking to the homepage */}
           <Link to="/" className="text-lg sm:text-xl md:text-2xl lg:text-3xl font-bold text-white tracking-normal whitespace-nowrap">
-            <span className="text-cyan-400">Jose</span> M.S. Ferreira
+            <span className="text-cyan-400">Jose</span> M.S. <span className="text-cyan-400">Ferreira</span>
           </Link>
           {/* Navigation component */}
           <Navigation />

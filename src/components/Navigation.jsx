@@ -97,7 +97,7 @@ const Navigation = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="hidden sm:flex space-x-2 md:space-x-3 lg:space-x-6 items-center">
+      <div className="hidden xl:flex space-x-2 md:space-x-3 lg:space-x-6 items-center">
         {menuItems.map((item) => {
           const IconComponent = item.icon;
           return (
@@ -144,27 +144,49 @@ const Navigation = () => {
         )}
       </div>
 
-      {/* Mobile Menu Button */}
-      <div className="sm:hidden flex items-center">
-        <button
-          onClick={toggleMobileMenu}
-          className="inline-flex items-center justify-center p-4 text-white hover:text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-all duration-300 touch-manipulation"
-          aria-label="Toggle mobile menu"
-        >
-          {isMobileMenuOpen ? (
-            <FaTimes className="h-6 w-6 animate-spin" />
-          ) : (
-            <FaBars className="h-6 w-6" />
-          )}
-        </button>
-      </div>
+      {/* Mobile/Tablet controls + anchored dropdown */}
+      <div className="xl:hidden relative">
+        <div className="flex items-center gap-2">
+          <Link
+            to="/"
+            className="inline-flex items-center justify-center p-3 text-white hover:text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-all duration-300 touch-manipulation"
+            aria-label="Go to home"
+          >
+            <FaHome className="h-5 w-5" />
+          </Link>
+          <div className="hidden md:flex items-center gap-1">
+            <Link
+              to="/projects"
+              className="px-3 py-2 rounded-lg text-sm text-white/90 hover:text-cyan-300 hover:bg-cyan-400/10 transition-all duration-300"
+            >
+              Projects
+            </Link>
+            <Link
+              to="/blogs"
+              className="px-3 py-2 rounded-lg text-sm text-white/90 hover:text-cyan-300 hover:bg-cyan-400/10 transition-all duration-300"
+            >
+              Blogs
+            </Link>
+          </div>
+          <button
+            onClick={toggleMobileMenu}
+            className="inline-flex items-center justify-center p-4 text-white hover:text-cyan-400 hover:bg-cyan-400/10 rounded-lg transition-all duration-300 touch-manipulation"
+            aria-label="Toggle mobile menu"
+          >
+            {isMobileMenuOpen ? (
+              <FaTimes className="h-6 w-6 animate-spin" />
+            ) : (
+              <FaBars className="h-6 w-6" />
+            )}
+          </button>
+        </div>
 
-      {/* Mobile Navigation Menu */}
-      <div
-        className={`${
-          isMobileMenuOpen ? "block animate-slideIn" : "hidden"
-        } sm:hidden bg-black/95 backdrop-blur-lg border-t border-cyan-400/20 px-6 py-6`}
-      >
+        {/* Mobile/Tablet Navigation Menu */}
+        <div
+          className={`${
+            isMobileMenuOpen ? "flex animate-slideIn" : "hidden"
+          } absolute top-full right-0 mt-2 z-[90] w-[min(92vw,26rem)] max-h-[calc(100vh-5.5rem)] flex-col overflow-y-auto rounded-2xl border border-cyan-400/25 bg-slate-950 px-5 py-4 shadow-2xl md:w-[min(78vw,30rem)] md:bg-gradient-to-br md:from-slate-950/98 md:via-blue-950/92 md:to-cyan-950/88 md:backdrop-blur-xl`}
+        >
         {menuItems.map((item) => {
           const IconComponent = item.icon;
           return (
@@ -172,10 +194,10 @@ const Navigation = () => {
               key={item.name}
               to={item.path}
               onClick={() => setIsMobileMenuOpen(false)}
-              className="group flex items-center space-x-4 text-white py-4 border-b border-cyan-400/20 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 touch-manipulation min-h-[48px]"
+              className="group flex items-center space-x-4 text-white py-4 px-2 border-b border-cyan-400/20 hover:text-cyan-300 hover:bg-cyan-400/10 rounded-lg transition-all duration-300 touch-manipulation min-h-[48px]"
             >
               <IconComponent className="text-xl group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium text-lg">{item.name}</span>
+              <span className="font-medium text-base md:text-lg">{item.name}</span>
             </Link>
           );
         })}
@@ -184,10 +206,10 @@ const Navigation = () => {
             <Link
               to="/login"
               onClick={() => setIsMobileMenuOpen(false)}
-              className="group flex items-center space-x-4 text-white py-4 border-b border-cyan-400/20 hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300 touch-manipulation min-h-[48px]"
+              className="group flex items-center space-x-4 text-white py-4 px-2 border-b border-cyan-400/20 hover:text-cyan-300 hover:bg-cyan-400/10 rounded-lg transition-all duration-300 touch-manipulation min-h-[48px]"
             >
               <FaSignInAlt className="text-xl group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium text-lg">Login</span>
+              <span className="font-medium text-base md:text-lg">Login</span>
             </Link>
           </>
         ) : (
@@ -196,10 +218,10 @@ const Navigation = () => {
               <Link
                 to="/admin-dash"
                 onClick={() => setIsMobileMenuOpen(false)}
-                className="group flex items-center space-x-4 text-cyan-400 py-4 border-b border-cyan-400/20 hover:text-cyan-300 hover:bg-cyan-400/20 transition-all duration-300 touch-manipulation min-h-[48px]"
+                className="group flex items-center space-x-4 text-cyan-400 py-4 px-2 border-b border-cyan-400/20 hover:text-cyan-300 hover:bg-cyan-400/20 rounded-lg transition-all duration-300 touch-manipulation min-h-[48px]"
               >
                 <FaCog className="text-xl group-hover:rotate-180 transition-transform duration-300" />
-                <span className="font-medium text-lg">Admin Dashboard</span>
+                <span className="font-medium text-base md:text-lg">Admin Dashboard</span>
               </Link>
             )}
             <button
@@ -207,13 +229,14 @@ const Navigation = () => {
                 handleLogout();
                 setIsMobileMenuOpen(false);
               }}
-              className="group flex items-center space-x-4 text-white py-4 border-b border-red-400/20 hover:text-red-400 hover:bg-red-400/10 transition-all duration-300 w-full text-left touch-manipulation min-h-[48px]"
+              className="group flex items-center space-x-4 text-white py-4 px-2 border-b border-red-400/20 hover:text-red-400 hover:bg-red-400/10 rounded-lg transition-all duration-300 w-full text-left touch-manipulation min-h-[48px]"
             >
               <FaSignOutAlt className="text-xl group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium text-lg">Logout</span>
+              <span className="font-medium text-base md:text-lg">Logout</span>
             </button>
           </>
         )}
+        </div>
       </div>
     </>
   );
