@@ -1,8 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { FaEnvelope, FaGithub, FaLinkedin, FaCode, FaTerminal, FaDatabase } from "react-icons/fa";
 
 const FORMSPREE_ENDPOINT =
   import.meta.env.VITE_FORMSPREE_ENDPOINT || "https://formspree.io/f/mlgpqrpb";
+const SESSION_LIMIT_KEY = "contactSubmissionCount";
+const SESSION_LAST_SUBMIT_AT_KEY = "contactLastSubmitAt";
+const SESSION_SUBMISSION_LIMIT = 3;
+const BASE_COOLDOWN_MS = 5 * 60 * 1000; // 5 minutes
 
 const Contact = () => {
   const [formData, setFormData] = useState({
@@ -12,6 +16,37 @@ const Contact = () => {
   });
   const [submitStatus, setSubmitStatus] = useState({ type: "", text: "" });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [nowMs, setNowMs] = useState(Date.now());
+  const [submissionCount, setSubmissionCount] = useState(() => {
+    const storedCount = sessionStorage.getItem(SESSION_LIMIT_KEY);
+    return storedCount ? Number(storedCount) : 0;
+  });
+  const [lastSubmitAt, setLastSubmitAt] = useState(() => {
+    const storedTs = sessionStorage.getItem(SESSION_LAST_SUBMIT_AT_KEY);
+    return storedTs ? Number(storedTs) : 0;
+  });
+
+  const cooldownMs = useMemo(() => {
+    // 1st send -> wait 5m for 2nd, 2nd send -> wait 10m for 3rd.
+    if (submissionCount === 1) return BASE_COOLDOWN_MS;
+    if (submissionCount === 2) return BASE_COOLDOWN_MS * 2;
+    return 0;
+  }, [submissionCount]);
+
+  const cooldownRemainingMs = Math.max(
+    0,
+    lastSubmitAt && cooldownMs ? lastSubmitAt + cooldownMs - nowMs : 0
+  );
+  const isCoolingDown = cooldownRemainingMs > 0;
+  const cooldownRemainingLabel = `${Math.floor(cooldownRemainingMs / 60000)}m ${Math.ceil(
+    (cooldownRemainingMs % 60000) / 1000
+  )}s`;
+
+  useEffect(() => {
+    if (!isCoolingDown) return undefined;
+    const timer = setInterval(() => setNowMs(Date.now()), 1000);
+    return () => clearInterval(timer);
+  }, [isCoolingDown]);
 
   const handleChange = (e) => {
     setFormData({
@@ -22,6 +57,21 @@ const Contact = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if (submissionCount >= SESSION_SUBMISSION_LIMIT) {
+      setSubmitStatus({
+        type: "error",
+        text: "You reached the 3 message limit for this session. Please try again later.",
+      });
+      return;
+    }
+    if (isCoolingDown) {
+      setSubmitStatus({
+        type: "error",
+        text: `Please wait ${cooldownRemainingLabel} before sending another message.`,
+      });
+      return;
+    }
 
     if (!FORMSPREE_ENDPOINT) {
       setSubmitStatus({
@@ -58,6 +108,13 @@ const Contact = () => {
         text: "Message sent successfully. I will get back to you soon.",
       });
       setFormData({ name: "", email: "", message: "" });
+      const nextCount = submissionCount + 1;
+      const submittedAt = Date.now();
+      setSubmissionCount(nextCount);
+      setLastSubmitAt(submittedAt);
+      setNowMs(submittedAt);
+      sessionStorage.setItem(SESSION_LIMIT_KEY, String(nextCount));
+      sessionStorage.setItem(SESSION_LAST_SUBMIT_AT_KEY, String(submittedAt));
     } catch {
       setSubmitStatus({
         type: "error",
@@ -219,11 +276,21 @@ const Contact = () => {
                 
                 <button 
                   type="submit"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || submissionCount >= SESSION_SUBMISSION_LIMIT || isCoolingDown}
                   className="w-full bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 disabled:from-cyan-700/70 disabled:to-blue-700/70 disabled:cursor-not-allowed text-white font-bold py-3 px-6 rounded-lg transition-all duration-300 hover:scale-105 shadow-lg"
                 >
                   {isSubmitting ? "Sending..." : "Send Message"}
                 </button>
+                {submissionCount > 0 && (
+                  <p className="text-xs text-gray-400 text-center">
+                    Limit: {submissionCount}/{SESSION_SUBMISSION_LIMIT} messages sent.
+                  </p>
+                )}
+                {isCoolingDown && (
+                  <p className="text-xs text-amber-300 text-center">
+                    Cooldown active: wait {cooldownRemainingLabel} before next message.
+                  </p>
+                )}
                 {submitStatus.text && (
                   <p
                     className={`text-sm text-center ${
