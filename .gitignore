@@ -1,0 +1,8 @@
+# Local-only project notes/docs
+CODEBASE.md
+SECURITY_SUMMARY.md
+TESTING_GUIDE.md
+TEST_CREDENTIALS.md
+server/scripts/database/README.md
+server/scripts/testing/README.md
+

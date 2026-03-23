@@ -91,16 +91,6 @@ const Projects = () => {
                         <FaGithub className="text-lg" />
                       </a>
                     )}
-                    {project.liveUrl && (
-                      <a
-                        href={project.liveUrl}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="p-2 rounded-lg bg-neutral-800 hover:bg-neutral-700 transition-colors"
-                      >
-                        <FaExternalLinkAlt className="text-lg" />
-                      </a>
-                    )}
                   </div>
                 </div>
 

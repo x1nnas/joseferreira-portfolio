@@ -1,4 +1,4 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import "./App.css";
 
 import Layout from "./components/Layout";
@@ -15,7 +15,6 @@ import AdminDashboard from "./pages/AdminDashboard";
 import UserAccess from "./pages/UserAccess";
 import NotFound from "./pages/NotFound";
 import Login from "./pages/Login";
-import Register from "./pages/Register";
 
 function App() {
   return (
@@ -30,7 +29,7 @@ function App() {
           <Route path="/projects/:slug" element={<ProjectDetail />} />
           <Route path="/contact" element={<Contact />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/create-account" element={<Register />} />
+          <Route path="/create-account" element={<Navigate to="/login" replace />} />
           <Route 
             path="/admin-dash" 
             element={

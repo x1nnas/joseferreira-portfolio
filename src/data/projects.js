@@ -1,33 +1,78 @@
 export const projects = [
   {
-    slug: "ecommerce-platform",
-    title: "E-Commerce Platform",
+    slug: "mindease",
+    title: "MindEase 🌿",
     shortDescription:
-      "Full-stack e-commerce solution with React, Node.js, and PostgreSQL.",
+      "A full-stack emotional wellness PWA for mood tracking, private journaling, and supportive AI conversations.",
     longDescription:
-      "Full-stack e-commerce solution with user authentication, product browsing, shopping cart, and admin dashboard for managing orders and inventory. Built with React on the frontend and a Node.js/Express API backed by PostgreSQL.",
-    tech: ["React", "Node.js", "PostgreSQL"],
+      "MindEase is a Progressive Web App designed to help users reflect and manage their emotional well-being. Users can track daily moods, write private journal entries, and interact with Serenity, an AI-powered chatbot that offers supportive conversations. Built with React, TypeScript, Node.js, and MongoDB, it includes secure JWT authentication, multilingual support (EN/PT-PT), and a calm responsive interface optimized for both mobile and desktop. As a PWA, it is installable and supports offline usage for a smooth app-like experience.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Node.js",
+      "MongoDB",
+      "JWT",
+      "PWA",
+      "i18n (EN/PT-PT)",
+    ],
     icon: "react",
     color: "cyan",
-    githubUrl: "",
-    liveUrl: "",
+    githubUrl: "https://github.com/x1nnas/mindease",
     screenshots: [
-      // Replace these when you have real image paths, e.g. "/assets/projects/ecommerce-1.png"
+      "/assets/projects/mindease/homepage.jpg",
+      "/assets/projects/mindease/aichatbot.jpg",
+      "/assets/projects/mindease/moodtracker.jpg",
+      "/assets/projects/mindease/registerform.png",
+      "/assets/projects/mindease/journalentry.jpg",
     ],
   },
   {
-    slug: "task-management-app",
-    title: "Task Management App",
+    slug: "noisewindow",
+    title: "NoiseWindow 🔕",
     shortDescription:
-      "Collaborative task management application with real-time updates.",
+      "A real-time availability PWA for shared spaces, built to reduce interruptions and improve communication.",
     longDescription:
-      "A productivity-focused task management app with real-time updates, drag-and-drop task reordering, and team collaboration features. Ideal for demonstrating WebSocket usage and complex state management in React.",
-    tech: ["React", "Socket.io", "MongoDB"],
+      "NoiseWindow is a Progressive Web App that helps people in shared living environments communicate their availability without interruptions. It shows real-time status states such as working, sleeping, and unavailable using animated visual indicators so others can quickly understand when to keep noise levels low. Built with Next.js, TypeScript, and Tailwind CSS, the app includes automatic schedule detection, offline support, and a PIN-protected admin panel to manage availability. It supports both English and Portuguese (PT-PT) and delivers a smooth installable experience across mobile and desktop.",
+    tech: [
+      "Next.js",
+      "TypeScript",
+      "Tailwind CSS",
+      "PWA",
+      "Offline Support",
+      "PIN-Protected Admin",
+      "i18n (EN/PT-PT)",
+    ],
     icon: "code",
     color: "blue",
-    githubUrl: "",
-    liveUrl: "",
-    screenshots: [],
+    githubUrl: "https://github.com/x1nnas/noisewindow",
+    screenshots: [
+      "/assets/projects/noisewindow/homepage.jpg",
+      "/assets/projects/noisewindow/adminpanel.jpg",
+    ],
+  },
+  {
+    slug: "flow-pomodoro",
+    title: "Flow ⏳",
+    shortDescription:
+      "A keyboard-first Pomodoro Chrome extension focused on deep work and low-friction session control.",
+    longDescription:
+      "Flow is a polished Pomodoro timer built as a Chrome extension, designed to minimize friction and help users stay consistent with deep work sessions. It emphasizes speed and simplicity, allowing users to start a session instantly via keyboard shortcuts while keeping the interface clean and distraction-free. Built with React, TypeScript, and Tailwind CSS, Flow uses a background-driven timer powered by Chrome Extension APIs to remain reliable even when the popup is closed. It includes persistent session tracking, daily stats, streaks, and a 7-day activity view, all stored locally with no backend required.",
+    tech: [
+      "React",
+      "TypeScript",
+      "Tailwind CSS",
+      "Chrome Extension (MV3)",
+      "chrome.storage.local",
+      "chrome.alarms",
+      "Local-First Persistence",
+    ],
+    icon: "database",
+    color: "purple",
+    githubUrl: "https://github.com/x1nnas/pomodoro-timer",
+    screenshots: [
+      "/assets/projects/flow/mainpage.png",
+      "/assets/projects/flow/settingspanel.png",
+    ],
   },
 ];
 

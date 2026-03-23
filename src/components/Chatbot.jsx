@@ -55,18 +55,18 @@ const Chatbot = () => {
                 </div>
                 <p className="text-gray-300 text-sm">
                   The AI assistant is still being developed. 
-                  It will help with coding questions once it's ready!
+                  It will help with any questions you have about José once it's ready!
                 </p>
               </div>
 
               <div className="flex items-center space-x-4 text-sm text-gray-400">
                 <div className="flex items-center space-x-1">
                   <FaTerminal className="text-green-400" />
-                  <span>Code Analysis</span>
+                  <span>About José</span>
                 </div>
                 <div className="flex items-center space-x-1">
                   <FaDatabase className="text-blue-400" />
-                  <span>Database Queries</span>
+                  <span>Career & projects</span>
                 </div>
               </div>
 

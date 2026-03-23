@@ -138,6 +138,19 @@ const BlogPosts = () => {
               {blog.content}
             </div>
           </div>
+
+          {blog.ctaUrl && blog.ctaLabel && (
+            <div className="mt-8">
+              <a
+                href={blog.ctaUrl}
+                target="_blank"
+                rel="noreferrer"
+                className="inline-flex items-center px-5 py-3 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-semibold rounded-lg transition-all duration-300 hover:scale-105"
+              >
+                {blog.ctaLabel}
+              </a>
+            </div>
+          )}
         </div>
 
         {/* Blog footer */}

@@ -82,7 +82,16 @@ const Login = () => {
           <h2 className="text-4xl font-bold text-cyan-400 mb-2">
             Welcome Back
           </h2>
-          <p className="text-gray-400">Sign in to your developer account</p>
+          <p className="text-gray-400">Sign in to your admin account</p>
+        </div>
+
+        {/* Admin login context */}
+        <div className="mb-6 p-4 bg-gradient-to-r from-cyan-600/15 to-blue-600/15 border border-cyan-500/30 rounded-lg">
+          <p className="text-gray-300 text-sm leading-relaxed">
+            This login is intended for admin access. The admin dashboard is used
+            to create and manage blog posts, plus handle site logistics and
+            content updates.
+          </p>
         </div>
 
         {/* Login form */}

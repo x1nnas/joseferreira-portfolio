@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { decodeJWT } from "../utils/jwt";
-import { FaCode, FaBars, FaTimes, FaHome, FaUser, FaProjectDiagram, FaBlog, FaEnvelope, FaSignInAlt, FaUserPlus, FaCog, FaSignOutAlt } from "react-icons/fa";
+import { FaCode, FaBars, FaTimes, FaHome, FaUser, FaProjectDiagram, FaBlog, FaEnvelope, FaSignInAlt, FaCog, FaSignOutAlt } from "react-icons/fa";
 
 // Navigation component for rendering the site's navigation menu
 const Navigation = () => {
@@ -121,13 +121,6 @@ const Navigation = () => {
               <FaSignInAlt className="text-lg group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium">Login</span>
             </Link>
-            <Link
-              to="/create-account"
-              className="group flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-blue-400 hover:bg-blue-400/10 transition-all duration-300"
-            >
-              <FaUserPlus className="text-lg group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium">Register</span>
-            </Link>
           </>
         ) : (
           <>
@@ -195,14 +188,6 @@ const Navigation = () => {
             >
               <FaSignInAlt className="text-xl group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium text-lg">Login</span>
-            </Link>
-            <Link
-              to="/create-account"
-              onClick={() => setIsMobileMenuOpen(false)}
-              className="group flex items-center space-x-4 text-white py-4 border-b border-blue-400/20 hover:text-blue-400 hover:bg-blue-400/10 transition-all duration-300 touch-manipulation min-h-[48px]"
-            >
-              <FaUserPlus className="text-xl group-hover:scale-110 transition-transform duration-300" />
-              <span className="font-medium text-lg">Register</span>
             </Link>
           </>
         ) : (

@@ -42,7 +42,7 @@ const Home = () => {
       <div className="absolute top-3/4 left-1/2 w-36 h-36 bg-teal-500/18 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '0.8s' }}></div>
       
       {/* Floating icons */}
-      <div className="absolute top-32 left-16 text-cyan-400/60 animate-bounce group cursor-pointer">
+      <div className="absolute top-32 left-16 text-cyan-400/60 animate-pulse group cursor-pointer">
         <a 
           href="https://www.reddit.com/r/ProgrammerHumor/" 
           target="_blank" 
@@ -54,7 +54,7 @@ const Home = () => {
           </div>
         </a>
       </div>
-      <div className="absolute top-52 right-24 text-blue-400/60 animate-bounce group cursor-pointer" style={{ animationDelay: '1s' }}>
+      <div className="absolute top-52 right-24 text-blue-400/60 animate-pulse group cursor-pointer" style={{ animationDelay: '1s' }}>
         <a 
           href="https://developer.mozilla.org/en-US/docs/Web/JavaScript" 
           target="_blank" 
@@ -66,7 +66,7 @@ const Home = () => {
           </div>
         </a>
       </div>
-      <div className="absolute bottom-48 left-24 text-purple-400/60 animate-bounce group cursor-pointer" style={{ animationDelay: '2s' }}>
+      <div className="absolute bottom-48 left-24 text-purple-400/60 animate-pulse group cursor-pointer" style={{ animationDelay: '2s' }}>
         <a 
           href="https://www.reddit.com/r/ProgrammerHumor/" 
           target="_blank" 
@@ -78,7 +78,7 @@ const Home = () => {
           </div>
         </a>
       </div>
-      <div className="absolute bottom-32 right-10 text-cyan-400/60 animate-bounce group cursor-pointer" style={{ animationDelay: '0.5s' }}>
+      <div className="absolute bottom-32 right-10 text-cyan-400/60 animate-pulse group cursor-pointer" style={{ animationDelay: '0.5s' }}>
         <a 
           href="https://react.dev" 
           target="_blank" 
@@ -157,13 +157,13 @@ const Home = () => {
           <img
             src="/assets/avatar.png"
             alt="Jose Ferreira - Developer"
-            className="relative w-48 h-42 sm:w-64 sm:h-56 mx-auto rounded-full border-4 border-cyan-500 shadow-2xl hover:scale-105 transition-transform duration-300"
+            className="relative w-52 h-52 sm:w-72 sm:h-72 mx-auto rounded-full object-cover object-center border-4 border-cyan-500 shadow-2xl hover:scale-105 transition-transform duration-300"
           />
           {/* Floating tech icons around avatar */}
-          <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-2 sm:p-3 rounded-full animate-bounce shadow-lg group cursor-pointer">
+          <div className="absolute -top-2 -right-2 sm:-top-4 sm:-right-4 bg-gradient-to-br from-cyan-500 to-cyan-600 text-black p-2 sm:p-3 rounded-full animate-pulse shadow-lg group cursor-pointer">
             <FaReact className="text-lg sm:text-xl group-hover:rotate-180 transition-transform duration-500" />
           </div>
-          <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white p-2 sm:p-3 rounded-full animate-bounce shadow-lg group cursor-pointer" style={{ animationDelay: '1s' }}>
+          <div className="absolute -bottom-2 -left-2 sm:-bottom-4 sm:-left-4 bg-gradient-to-br from-blue-500 to-blue-600 text-white p-2 sm:p-3 rounded-full animate-pulse shadow-lg group cursor-pointer" style={{ animationDelay: '1s' }}>
             <FaNodeJs className="text-lg sm:text-xl group-hover:scale-110 transition-transform duration-300" />
           </div>
           <div className="absolute -top-1 -left-4 sm:-top-2 sm:-left-8 bg-gradient-to-br from-purple-500 to-purple-600 text-white p-1.5 sm:p-2 rounded-full animate-pulse group cursor-pointer" style={{ animationDelay: '2s' }}>
@@ -277,7 +277,7 @@ const Home = () => {
         {/* Developer stats */}
         <div className="mt-4 sm:mt-6 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 max-w-2xl mx-auto px-4">
           <div className="group text-center p-6 bg-gradient-to-br from-neutral-900/50 to-neutral-800/50 rounded-lg border border-cyan-500/20 hover:border-cyan-400/40 transition-all duration-300 hover:scale-105">
-            <div className="text-3xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">3+</div>
+            <div className="text-3xl font-bold text-cyan-400 group-hover:text-cyan-300 transition-colors duration-300">2+</div>
             <div className="text-sm text-gray-300 group-hover:text-gray-200 transition-colors duration-300">Years Experience</div>
             <div className="w-full bg-cyan-400/20 rounded-full h-1 mt-2 group-hover:bg-cyan-400/40 transition-colors duration-300"></div>
           </div>

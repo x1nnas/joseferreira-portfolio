@@ -1,8 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useParams, Link } from "react-router-dom";
 import {
   FaArrowLeft,
-  FaExternalLinkAlt,
   FaGithub,
   FaCode,
   FaReact,
@@ -19,6 +18,13 @@ const iconMap = {
 const ProjectDetail = () => {
   const { slug } = useParams();
   const project = projects.find((p) => p.slug === slug);
+  const [showScreenshots, setShowScreenshots] = useState(false);
+  const [currentShot, setCurrentShot] = useState(0);
+
+  useEffect(() => {
+    setCurrentShot(0);
+    setShowScreenshots(false);
+  }, [slug]);
 
   if (!project) {
     return (
@@ -46,6 +52,8 @@ const ProjectDetail = () => {
   }
 
   const IconComponent = iconMap[project.icon] || FaCode;
+  const screenshots = project.screenshots || [];
+  const isFlowProject = project.slug === "flow-pomodoro";
 
   return (
     <section className="relative min-h-screen py-24 bg-black text-white overflow-hidden">
@@ -90,17 +98,6 @@ const ProjectDetail = () => {
                 Code
               </a>
             )}
-            {project.liveUrl && (
-              <a
-                href={project.liveUrl}
-                target="_blank"
-                rel="noreferrer"
-                className="inline-flex items-center px-3 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-semibold transition-colors"
-              >
-                <FaExternalLinkAlt className="mr-2" />
-                Live Demo
-              </a>
-            )}
           </div>
         </div>
 
@@ -111,27 +108,148 @@ const ProjectDetail = () => {
               {project.longDescription}
             </p>
 
-            {project.screenshots && project.screenshots.length > 0 && (
-              <div className="mt-6 space-y-4">
-                <h3 className="text-sm font-semibold text-gray-400">
-                  Screenshots
+            <div className="mt-6 rounded-2xl border border-neutral-700/70 bg-gradient-to-br from-neutral-900/80 to-neutral-800/50 p-4 sm:p-5">
+              <div className="flex items-center justify-between gap-3 mb-4">
+                <h3 className="text-sm font-semibold text-gray-200">
+                  App Screenshots
                 </h3>
-                <div className="grid gap-4 sm:grid-cols-2">
-                  {project.screenshots.map((src, index) => (
-                    <div
-                      key={index}
-                      className="overflow-hidden rounded-xl border border-neutral-700/70 bg-neutral-900"
-                    >
-                      <img
-                        src={src}
-                        alt={`${project.title} screenshot ${index + 1}`}
-                        className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                      />
-                    </div>
-                  ))}
-                </div>
+                <button
+                  type="button"
+                  onClick={() => setShowScreenshots((prev) => !prev)}
+                  className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-neutral-800 hover:bg-neutral-700 text-gray-200 transition-colors"
+                >
+                  {showScreenshots
+                    ? "Hide App Screenshots"
+                    : "Show App Screenshots"}
+                </button>
               </div>
-            )}
+
+              {showScreenshots ? (
+                !isFlowProject && screenshots.length > 2 ? (
+                  <div className="space-y-4">
+                    <div className="relative overflow-hidden rounded-xl border border-neutral-700/70 bg-neutral-900 mx-auto w-full max-w-[280px] sm:max-w-[320px]">
+                      <img
+                        src={screenshots[currentShot]}
+                        alt={`${project.title} screenshot ${currentShot + 1}`}
+                        className="w-full aspect-[9/18] object-cover"
+                      />
+
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCurrentShot((prev) =>
+                            prev === 0 ? screenshots.length - 1 : prev - 1
+                          )
+                        }
+                        className="absolute top-1/2 left-2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white text-lg transition-colors"
+                        aria-label="Previous screenshot"
+                      >
+                        {"<"}
+                      </button>
+                      <button
+                        type="button"
+                        onClick={() =>
+                          setCurrentShot((prev) =>
+                            prev === screenshots.length - 1 ? 0 : prev + 1
+                          )
+                        }
+                        className="absolute top-1/2 right-2 -translate-y-1/2 w-9 h-9 rounded-full bg-black/60 hover:bg-black/80 text-white text-lg transition-colors"
+                        aria-label="Next screenshot"
+                      >
+                        {">"}
+                      </button>
+
+                      <div className="absolute bottom-2 right-2 px-2 py-1 rounded-md bg-black/70 text-xs text-gray-200">
+                        {currentShot + 1} / {screenshots.length}
+                      </div>
+                    </div>
+
+                    <div className="overflow-x-auto pb-1">
+                      <div className="flex gap-3 min-w-max">
+                        {screenshots.map((src, index) => (
+                          <button
+                            key={src + index}
+                            type="button"
+                            onClick={() => setCurrentShot(index)}
+                            className={`shrink-0 overflow-hidden rounded-lg border transition-colors ${
+                              index === currentShot
+                                ? "border-cyan-400"
+                                : "border-neutral-700/70 hover:border-neutral-500"
+                            }`}
+                            aria-label={`View screenshot ${index + 1}`}
+                          >
+                            <img
+                              src={src}
+                              alt={`${project.title} thumbnail ${index + 1}`}
+                              className="w-16 h-28 object-cover"
+                            />
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                ) : screenshots.length > 0 ? (
+                  isFlowProject ? (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {screenshots.map((src, index) => (
+                        <div
+                          key={src + index}
+                          className="rounded-xl border border-neutral-700/70 p-3 flex items-center justify-center bg-neutral-900/40"
+                        >
+                          <img
+                            src={src}
+                            alt={`${project.title} screenshot ${index + 1}`}
+                            className="w-auto h-auto max-h-[34rem] max-w-full object-contain"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <div className="grid gap-4 sm:grid-cols-2">
+                      {screenshots.map((src, index) => (
+                        <div
+                          key={src + index}
+                          className="overflow-hidden rounded-xl border border-neutral-700/70 bg-neutral-900 mx-auto w-full max-w-[240px] sm:max-w-[260px]"
+                        >
+                          <img
+                            src={src}
+                            alt={`${project.title} screenshot ${index + 1}`}
+                            className="w-full aspect-[9/18] object-cover"
+                          />
+                        </div>
+                      ))}
+                    </div>
+                  )
+                ) : (
+                  <div className="rounded-xl border border-neutral-700/70 bg-neutral-900/60 p-5">
+                    <p className="text-sm sm:text-base text-gray-300 font-medium mb-2">
+                      Visual walkthrough coming soon.
+                    </p>
+                    <p className="text-sm text-gray-400 leading-relaxed">
+                      In the meantime, you can review the implementation details
+                      and architecture in the repository.
+                    </p>
+                    {project.githubUrl && (
+                      <div className="mt-4">
+                        <a
+                          href={project.githubUrl}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="inline-flex items-center px-3 py-2 bg-cyan-600 hover:bg-cyan-500 rounded-lg text-sm font-semibold transition-colors"
+                        >
+                          Open Code Repository
+                        </a>
+                      </div>
+                    )}
+                  </div>
+                )
+              ) : (
+                <p className="text-sm text-gray-500">
+                  Screenshots are hidden. Click "Show App Screenshots" to view
+                  the gallery.
+                </p>
+              )}
+            </div>
           </div>
 
           <aside className="space-y-6">

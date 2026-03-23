@@ -75,7 +75,7 @@ const About = () => {
               </div>
 
           {/* Timeline - 3 column layout for better horizontal usage */}
-          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 sm:gap-6">
+          <div className="grid lg:grid-cols-3 md:grid-cols-2 gap-4 sm:gap-6 items-start">
             {/* Journey Timeline - Horizontal Layout */}
             <div className="lg:col-span-2">
               <h3 className="text-xl sm:text-2xl font-bold text-cyan-400 mb-4 sm:mb-6 flex items-center">
@@ -131,8 +131,8 @@ const About = () => {
                 <div className="bg-gradient-to-r from-green-500/10 to-cyan-500/10 p-3 sm:p-4 rounded-lg border border-green-500/20 hover:border-green-400/40 transition-all duration-300">
                   <div className="flex items-center mb-2">
                     <FaCode className="text-green-400 mr-2 text-sm" />
-                    <span className="text-green-400 font-semibold text-sm sm:text-base">2023</span>
-                    <span className="text-gray-400 text-xs ml-2">Age 23</span>
+                    <span className="text-green-400 font-semibold text-sm sm:text-base">2022</span>
+                    <span className="text-gray-400 text-xs ml-2">Age 22</span>
                   </div>
                   <h4 className="text-white font-semibold mb-2 text-sm sm:text-base">Active Programming Learning 🚀</h4>
                   <p className="text-gray-300 text-xs sm:text-sm mb-2">Started actively learning programming</p>
@@ -144,7 +144,7 @@ const About = () => {
             </div>
 
             {/* Right Column - Compact Skills & Goals */}
-            <div className="space-y-4">
+            <div className="space-y-4 lg:mt-3">
               <h3 className="text-xl font-bold text-blue-400 mb-4 flex items-center">
                 <FaRocket className="mr-2" />
                 Current Focus
@@ -156,19 +156,27 @@ const About = () => {
                 <div className="grid grid-cols-2 gap-2">
                   <div className="flex items-center">
                     <FaReact className="text-cyan-400 mr-1 text-sm" />
-                    <span className="text-xs">React</span>
-                  </div>
-                  <div className="flex items-center">
-                    <FaNodeJs className="text-green-400 mr-1 text-sm" />
-                    <span className="text-xs">Node.js</span>
-                  </div>
-                  <div className="flex items-center">
-                    <FaDatabase className="text-purple-400 mr-1 text-sm" />
-                    <span className="text-xs">Databases</span>
+                    <span className="text-xs">React / Next.js</span>
                   </div>
                   <div className="flex items-center">
                     <FaCode className="text-blue-400 mr-1 text-sm" />
-                    <span className="text-xs">JavaScript</span>
+                    <span className="text-xs">TypeScript & JavaScript</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FaCode className="text-cyan-300 mr-1 text-sm" />
+                    <span className="text-xs">HTML5, CSS3, Tailwind</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FaNodeJs className="text-green-400 mr-1 text-sm" />
+                    <span className="text-xs">Node.js / Express</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FaDatabase className="text-purple-400 mr-1 text-sm" />
+                    <span className="text-xs">PostgreSQL & SQL</span>
+                  </div>
+                  <div className="flex items-center">
+                    <FaCode className="text-yellow-300 mr-1 text-sm" />
+                    <span className="text-xs">Solidity & Web3 basics</span>
                   </div>
                 </div>
               </div>

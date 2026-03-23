@@ -1,3 +1,5 @@
+import { dummyBlogs } from "../data/dummyBlogs";
+
 // Base URL for the backend API.
 // In development, this will typically be empty so that Vite's proxy
 // can forward `/api/*` calls to the local backend.
@@ -7,35 +9,50 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = `${API_BASE}/api/blogs`;
 
 export const getAllBlogs = async () => {
-  const response = await fetch(`${BASE_URL}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const response = await fetch(`${BASE_URL}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to fetch blogs");
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch blogs");
+    }
+
+    return response.json();
+  } catch {
+    // Fallback mode: show static portfolio blog content when backend is unavailable.
+    return [...dummyBlogs].sort(
+      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+    );
   }
-
-  return response.json();
 };
 
 export const getBlogById = async (id) => {
-  const response = await fetch(`${BASE_URL}/${id}`, {
-    method: "GET",
-    headers: {
-      "Content-Type": "application/json",
-    },
-  });
+  try {
+    const response = await fetch(`${BASE_URL}/${id}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
-  if (!response.ok) {
-    const errorData = await response.json();
-    throw new Error(errorData.message || "Failed to fetch blog");
+    if (!response.ok) {
+      const errorData = await response.json().catch(() => ({}));
+      throw new Error(errorData.message || "Failed to fetch blog");
+    }
+
+    return response.json();
+  } catch {
+    const localBlog = dummyBlogs.find((blog) => String(blog.id) === String(id));
+    if (!localBlog) {
+      throw new Error("Blog not found");
+    }
+    return localBlog;
   }
-
-  return response.json();
 };
 
 export const createBlog = async (blogData) => {

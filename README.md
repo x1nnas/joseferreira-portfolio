@@ -1,118 +1,80 @@
-# Portfolio React + Express Backend
+# Jose Ferreira Portfolio
 
-This is a full-stack portfolio website with a blog feature built using **React** (Vite) on the frontend and **Express** with **PostgreSQL** on the backend. It supports viewing blog posts, a user system, and a responsive, modern UI with Tailwind CSS.
+Personal portfolio website built with React and Vite, focused on clean project presentation, responsive design, and a strong frontend-first experience.
 
----
+## Live Sections
 
-## Features
+- Home, About, Projects, Contact
+- Project detail pages with screenshot galleries
+- Blog list and blog detail pages (with local fallback content for frontend-only hosting)
+- Admin login entry point (for future backend-enabled content management)
 
-- React frontend with Vite for fast development and build
-- Express backend serving REST API endpoints for blogs and users
-- PostgreSQL database connection via `pg`
-- Tailwind CSS styling with subtle gold gradient and pattern overlays
-- Blog listing and individual blog post pages
-- Proxy setup for frontend to communicate with backend during development
-- Concurrent development with `concurrently`
-- Production-ready Express server serving the React build
+## Tech Stack
 
----
+- React 19
+- Vite
+- Tailwind CSS
+- React Router
 
 ## Project Structure
 
-/frontend # React app (Vite)
-/server # Express backend
-/routes # API routes
-/db # Database connection and queries
-.env # Environment variables for DB connection
+```text
+src/
+  components/      Shared UI components (header, nav, layout, guards)
+  pages/           Route pages (Home, About, Projects, Blogs, Login, etc.)
+  data/            Static content sources (projects, dummy blog data)
+  api/             Frontend API adapters with graceful fallback behavior
+public/
+  assets/          Images, videos, and project screenshots
+server/            Optional backend (kept for future use)
+```
 
----
+## Local Development
 
-## Getting Started
+Install dependencies:
 
-### Prerequisites
-
-- Node.js (v18+ recommended)
-- PostgreSQL (running locally or remotely)
-
-### Clone the repo
-
-git clone https://github.com/yourusername/yourrepo.git
-cd yourrepo
-Development
-1. Setup environment variables
-Create a .env file in the /server folder:
-
-DB_USER=bloguser
-DB_PASS=yourpassword
-DB_NAME=blogdb
-DB_HOST=localhost
-DB_PORT=5432
-2. Install dependencies
-Backend:
-
-cd server
+```bash
 npm install
-Frontend:
+```
 
-cd ../frontend
-npm install
-3. Run backend and frontend concurrently
-From the project root folder, run:
+Run frontend dev server:
 
-npx concurrently "npm run dev --prefix server" "npm run dev --prefix frontend"
-This runs backend on port 3000 and frontend on port 3001.
+```bash
+npm run dev-frontend
+```
 
-Building for Production
-1. Build frontend production assets
-From the frontend folder:
+App runs at:
 
+```text
+http://localhost:3001
+```
+
+If you want full-stack local development (optional):
+
+```bash
+npm run dev
+```
+
+## Production Build
+
+```bash
 npm run build
-This outputs static files to frontend/dist.
+```
 
-2. Serve frontend with Express backend
-The backend is configured to serve static files from frontend/dist when in production mode.
+Build output is generated in:
 
-3. Run backend in production mode
-From the server folder:
+```text
+dist/
+```
 
-npm run prod
-This script sets NODE_ENV=production and starts the backend server.
+## Deploy (Frontend-only on Vercel)
 
-Environment Variables Reference
-Create a .env.example file in the /server folder with the following content:
+- Root directory: repository root (`.`)
+- Build command: `npm run build`
+- Output directory: `dist`
+- Environment variables: none required for frontend-only mode
 
-DB_USER=your_db_username
-DB_PASS=your_db_password
-DB_NAME=your_db_name
-DB_HOST=your_db_host
-DB_PORT=5432
-Scripts Summary
-Frontend (frontend/package.json)
-dev — run development server with Vite on port 3001
+## Notes
 
-build — build production assets in dist
-
-preview — preview production build locally
-
-Backend (server/package.json)
-dev — run backend with nodemon on port 3000
-
-start — start backend server normally
-
-prod — start backend in production mode (NODE_ENV=production)
-
-Technologies Used
-React 19 with Vite
-
-Express 5
-
-PostgreSQL
-
-Tailwind CSS
-
-Concurrently
-
-Node.js & npm
-
-License
-This project is licensed under the MIT License.
+- Blog pages are configured to work even when backend APIs are unavailable by falling back to local portfolio blog content.
+- The backend folder remains in the repository for future reactivation of admin/blog management workflows.
