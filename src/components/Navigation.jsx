@@ -97,14 +97,14 @@ const Navigation = () => {
   return (
     <>
       {/* Desktop Navigation */}
-      <div className="hidden sm:flex space-x-6 items-center">
+      <div className="hidden sm:flex space-x-2 md:space-x-3 lg:space-x-6 items-center">
         {menuItems.map((item) => {
           const IconComponent = item.icon;
           return (
             <Link
               key={item.name}
               to={item.path}
-              className="group relative flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
+              className="group relative flex items-center space-x-2 px-2 md:px-3 lg:px-4 py-2 rounded-lg text-white hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
             >
               <IconComponent className="text-lg group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium">{item.name}</span>
@@ -116,7 +116,7 @@ const Navigation = () => {
           <>
             <Link
               to="/login"
-              className="group flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
+              className="group flex items-center space-x-2 px-2 md:px-3 lg:px-4 py-2 rounded-lg text-white hover:text-cyan-400 hover:bg-cyan-400/10 transition-all duration-300"
             >
               <FaSignInAlt className="text-lg group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium">Login</span>
@@ -127,7 +127,7 @@ const Navigation = () => {
             {userRole === "admin" && (
               <Link
                 to="/admin-dash"
-                className="group flex items-center space-x-2 px-4 py-2 rounded-lg text-cyan-400 hover:text-cyan-300 hover:bg-cyan-400/20 transition-all duration-300 border border-cyan-400/30"
+                className="group flex items-center space-x-2 px-2 md:px-3 lg:px-4 py-2 rounded-lg text-cyan-400 hover:text-cyan-300 hover:bg-cyan-400/20 transition-all duration-300 border border-cyan-400/30"
               >
                 <FaCog className="text-lg group-hover:rotate-180 transition-transform duration-300" />
                 <span className="font-medium">Admin</span>
@@ -135,7 +135,7 @@ const Navigation = () => {
             )}
             <button
               onClick={handleLogout}
-              className="group flex items-center space-x-2 px-4 py-2 rounded-lg text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-300"
+              className="group flex items-center space-x-2 px-2 md:px-3 lg:px-4 py-2 rounded-lg text-white hover:text-red-400 hover:bg-red-400/10 transition-all duration-300"
             >
               <FaSignOutAlt className="text-lg group-hover:scale-110 transition-transform duration-300" />
               <span className="font-medium">Logout</span>
