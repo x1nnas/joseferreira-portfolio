@@ -9,6 +9,10 @@ const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = `${API_BASE}/api/blogs`;
 
 export const getAllBlogs = async () => {
+  const sortedDummyBlogs = [...dummyBlogs].sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
+  );
+
   try {
     const response = await fetch(`${BASE_URL}`, {
       method: "GET",
@@ -22,12 +26,17 @@ export const getAllBlogs = async () => {
       throw new Error(errorData.message || "Failed to fetch blogs");
     }
 
-    return response.json();
+    const data = await response.json();
+
+    // In production, an empty API response should still show portfolio blog content.
+    if (!Array.isArray(data) || data.length === 0) {
+      return sortedDummyBlogs;
+    }
+
+    return data;
   } catch {
     // Fallback mode: show static portfolio blog content when backend is unavailable.
-    return [...dummyBlogs].sort(
-      (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-    );
+    return sortedDummyBlogs;
   }
 };
 
