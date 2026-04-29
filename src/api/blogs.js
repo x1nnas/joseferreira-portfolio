@@ -7,11 +7,28 @@ import { dummyBlogs } from "../data/dummyBlogs";
 // like `https://your-api-domain.com`.
 const API_BASE = import.meta.env.VITE_API_BASE_URL || "";
 const BASE_URL = `${API_BASE}/api/blogs`;
+let cachedBlogs = [];
+
+const getBlogId = (blog) => blog?.id ?? blog?.blog_id ?? blog?._id;
+
+const normalizeBlog = (blog) => {
+  const normalizedId = getBlogId(blog);
+  return {
+    ...blog,
+    id: normalizedId,
+  };
+};
+
+const findBlogById = (blogs, id) =>
+  blogs.find((blog) => String(getBlogId(blog)) === String(id));
+
+const getSortedDummyBlogs = () =>
+  [...dummyBlogs]
+    .map(normalizeBlog)
+    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
 
 export const getAllBlogs = async () => {
-  const sortedDummyBlogs = [...dummyBlogs].sort(
-    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()
-  );
+  const sortedDummyBlogs = getSortedDummyBlogs();
 
   try {
     const response = await fetch(`${BASE_URL}`, {
@@ -30,19 +47,25 @@ export const getAllBlogs = async () => {
 
     // In production, an empty API response should still show portfolio blog content.
     if (!Array.isArray(data) || data.length === 0) {
+      cachedBlogs = sortedDummyBlogs;
       return sortedDummyBlogs;
     }
 
-    return data;
+    const normalizedBlogs = data.map(normalizeBlog);
+    cachedBlogs = normalizedBlogs;
+    return normalizedBlogs;
   } catch {
     // Fallback mode: show static portfolio blog content when backend is unavailable.
+    cachedBlogs = sortedDummyBlogs;
     return sortedDummyBlogs;
   }
 };
 
 export const getBlogById = async (id) => {
+  const normalizedId = String(id ?? "");
+
   try {
-    const response = await fetch(`${BASE_URL}/${id}`, {
+    const response = await fetch(`${BASE_URL}/${normalizedId}`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -54,13 +77,18 @@ export const getBlogById = async (id) => {
       throw new Error(errorData.message || "Failed to fetch blog");
     }
 
-    return response.json();
+    const blog = await response.json();
+    const normalizedBlog = normalizeBlog(blog);
+    return normalizedBlog.id ? normalizedBlog : { ...normalizedBlog, id: normalizedId };
   } catch {
-    const localBlog = dummyBlogs.find((blog) => String(blog.id) === String(id));
+    const localBlog =
+      findBlogById(cachedBlogs, normalizedId) || findBlogById(dummyBlogs, normalizedId);
+
     if (!localBlog) {
       throw new Error("Blog not found");
     }
-    return localBlog;
+
+    return normalizeBlog(localBlog);
   }
 };
 
